@@ -1,0 +1,11 @@
+BEGIN
+  FOR c IN (
+      SELECT s.sid, s.serial#
+      FROM v$session s
+      WHERE s.USERNAME <> 'SYS'  AND s.STATUS <> 'KILLED'  )
+  LOOP
+      EXECUTE IMMEDIATE 'alter system kill session ''' || c.sid || ',' || c.serial# || '''';
+  END LOOP;
+END;
+/
+exit

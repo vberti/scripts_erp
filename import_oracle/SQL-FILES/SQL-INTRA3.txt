@@ -1,0 +1,30 @@
+DECLARE 
+    CURSOR C_INDICE IS SELECT OBJECT_NAME FROM USER_OBJECTS WHERE OBJECT_TYPE = 'INDEX' AND NOT OBJECT_NAME LIKE 'BIN%' ORDER BY OBJECT_NAME;
+    L_RECRIAR VARCHAR2(500);
+BEGIN
+    OPEN C_INDICE;
+    LOOP 
+        FETCH C_INDICE INTO L_RECRIAR;
+        IF NOT C_INDICE%NOTFOUND THEN
+            EXECUTE IMMEDIATE 'ALTER INDEX ' || TO_CHAR(L_RECRIAR) || ' REBUILD';
+        END IF;
+        EXIT WHEN C_INDICE%NOTFOUND;
+    END LOOP;
+    CLOSE C_INDICE;
+    exception WHEN OTHERS THEN
+    dbms_output.put_line(L_RECRIAR);
+END;
+/
+begin FOR cur IN (SELECT OBJECT_NAME, OBJECT_TYPE, owner FROM all_objects WHERE Owner = 'INTRA') LOOP 
+BEGIN
+  if cur.OBJECT_TYPE = 'PACKAGE BODY' then 
+    EXECUTE IMMEDIATE 'alter ' || cur.OBJECT_TYPE || ' "' ||  cur.owner || '"."' || cur.OBJECT_NAME || '" compile body'; 
+  else 
+    EXECUTE IMMEDIATE 'alter ' || cur.OBJECT_TYPE || ' "' ||  cur.owner || '"."' || cur.OBJECT_NAME || '" compile'; 
+  end if; 
+EXCEPTION
+  WHEN OTHERS THEN NULL; 
+END;
+end loop; end;
+/
+exit

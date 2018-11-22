@@ -1,0 +1,3 @@
+EXEC DBMS_STATS.gather_schema_stats (ownname => 'RM', cascade => true, estimate_percent => dbms_stats.auto_sample_size);
+/
+exit

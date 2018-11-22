@@ -1,6 +1,5 @@
-# Scripts de rotinas - TOTVS RM (Oracle Database)
-
-Scripts ERP TOTVS RM
+# Scripts - TOTVS RM
+Arquivos utilizados (e validados) em Oracle Linux, para manutenção de Oracle Database para o sistema ERP TOTVS RM.
 
 Rotinas utilizadas para Oracle Database.
 ---
